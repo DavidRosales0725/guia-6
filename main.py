@@ -2,6 +2,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+from database import init_db
 
 load_dotenv()
 
@@ -13,6 +14,11 @@ app = FastAPI(
     description="API REST para la gestión de usuarios, ejercicios, rutinas y progreso físico",
     version="1.0.0"
 )
+
+# Inicializar tablas al arrancar el servidor
+@app.on_event("startup")
+def startup_event():
+    init_db()
 
 app.add_middleware(
     CORSMiddleware,

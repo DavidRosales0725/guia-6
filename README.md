@@ -91,6 +91,16 @@ Una vez iniciado el servidor, puedes probar todas las operaciones CRUD desde el 
 
 ---
 
+## Despliegue en Producción
+
+- **URL Pública:** https://fittrack-api-kxn2.onrender.com
+- **Documentación Swagger:** https://fittrack-api-kxn2.onrender.com/docs
+- **Endpoint de Salud:** https://fittrack-api-kxn2.onrender.com/health
+
+### Limitaciones Conocidas (Plan Gratuito de Render)
+- **Sistema de archivos efímero:** La base de datos SQLite se reinicia y borra en cada redespliegue o reinicio del contenedor.
+- **Inactividad (Spin down):** Tras 15 minutos sin recibir peticiones, el servidor se suspende automáticamente. La primera petición puede tardar cerca de 50 segundos en responder mientras la instancia se vuelve a levantar.
+
 ## 👤 Autor
 
 * **David Alejandro Rosales Sarria**
