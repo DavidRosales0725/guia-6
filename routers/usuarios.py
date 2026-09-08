@@ -42,11 +42,14 @@ def crear_usuario(usuario: UsuarioCreate):
         )
         conn.commit()
         nuevo_id = cursor.lastrowid
+        conn.close()
+        return {"mensaje": "Usuario creado exitosamente", "id": nuevo_id}
     except sqlite3.IntegrityError:
         conn.close()
         raise HTTPException(status_code=400, detail="El email ya está registrado")
-    conn.close()
-    return {"mensaje": "Usuario creado exitosamente", "id": nuevo_id}
+    except Exception as e:
+        conn.close()
+        raise HTTPException(status_code=400, detail=f"Error al crear usuario: {str(e)}")
 
 # 4. Eliminar un usuario
 @router.delete("/{usuario_id}")
