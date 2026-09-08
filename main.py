@@ -4,7 +4,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from database import init_db
 
+# Cargar variables de entorno
 load_dotenv()
+
+# Inicializar la base de datos y crear las tablas
+init_db()
 
 # Importar los 4 routers
 from routers import usuarios, ejercicios, rutinas, progreso
@@ -15,11 +19,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Inicializar tablas al arrancar el servidor
-@app.on_event("startup")
-def startup_event():
-    init_db()
-
+# Configuración de CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
