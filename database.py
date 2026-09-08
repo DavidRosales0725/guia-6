@@ -1,17 +1,9 @@
 import sqlite3
 
-DATABASE_NAME = "fittrack.db"
-
-def get_connection():
-    """Establece conexión con la base de datos SQLite."""
-    conn = sqlite3.connect(DATABASE_NAME)
-    conn.execute("PRAGMA foreign_keys = ON;")
-    conn.row_factory = sqlite3.Row
-    return conn
+DB_NAME = "fittrack.db"
 
 def init_db():
-    """Crea las 4 tablas principales de FitTrack."""
-    conn = get_connection()
+    conn = sqlite3.connect(DB_NAME)
     cursor = conn.cursor()
 
     # 1. Tabla Usuarios
@@ -20,8 +12,8 @@ def init_db():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nombre TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
-        password_hash TEXT NOT NULL,
-        rol TEXT CHECK(rol IN ('administrador', 'usuario')) DEFAULT 'usuario',
+        password TEXT NOT NULL,
+        rol TEXT DEFAULT 'usuario',
         fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
     """)
@@ -30,7 +22,7 @@ def init_db():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS ejercicios (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nombre TEXT UNIQUE NOT NULL,
+        nombre TEXT NOT NULL,
         grupo_muscular TEXT NOT NULL,
         descripcion TEXT
     );
@@ -61,7 +53,7 @@ def init_db():
 
     conn.commit()
     conn.close()
-    print("¡Base de datos con 4 entidades creada exitosamente!")
+    print("Base de datos creada exitosamente!")
 
 if __name__ == "__main__":
     init_db()
