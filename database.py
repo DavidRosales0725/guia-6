@@ -1,9 +1,17 @@
 import sqlite3
+import os
 
-DB_NAME = "fittrack.db"
+# Define la ruta absoluta para la base de datos en cualquier entorno
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_NAME = os.path.join(BASE_DIR, "fittrack.db")
+
+def get_db():
+    conn = sqlite3.connect(DB_NAME)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 def init_db():
-    conn = sqlite3.connect(DB_NAME)
+    conn = get_db()
     cursor = conn.cursor()
     
     cursor.execute("""

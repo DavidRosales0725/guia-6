@@ -1,18 +1,12 @@
 from fastapi import APIRouter, HTTPException
 import sqlite3
 from schemas import UsuarioCreate
+from database import get_db
 
 router = APIRouter(
     prefix="/usuarios",
     tags=["Usuarios"]
 )
-
-DB_NAME = "fittrack.db"
-
-def get_db():
-    conn = sqlite3.connect(DB_NAME)
-    conn.row_factory = sqlite3.Row
-    return conn
 
 # 1. Listar todos los usuarios
 @router.get("/")
