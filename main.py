@@ -3,19 +3,17 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
-# Cargar variables de entorno desde el archivo .env
 load_dotenv()
 
-# Importar las rutas de la carpeta routers
-from routers import usuarios, rutinas
+# Importar los 4 routers
+from routers import usuarios, ejercicios, rutinas, progreso
 
 app = FastAPI(
     title="FitTrack API",
-    description="API REST para la gestión de usuarios, rutinas y progreso físico",
+    description="API REST para la gestión de usuarios, ejercicios, rutinas y progreso físico",
     version="1.0.0"
 )
 
-# Configuración de CORS (permite que cualquier navegador o frontend consulte la API)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,11 +22,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Incluir los routers
+# Registrar los 4 routers (14 endpoints en total)
 app.include_router(usuarios.router)
+app.include_router(ejercicios.router)
 app.include_router(rutinas.router)
+app.include_router(progreso.router)
 
-# Endpoint de salud (Health Check obligatorio para la guía)
 @app.get("/health", tags=["Salud"])
 def health_check():
     return {"estado": "ok", "mensaje": "El servicio está corriendo correctamente"}
